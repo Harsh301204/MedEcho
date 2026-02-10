@@ -1,8 +1,5 @@
 "use client";
 
-
-
-
 import { motion } from "motion/react";
 import BentoGridComponent from "./_components/BentoGrid";
 
