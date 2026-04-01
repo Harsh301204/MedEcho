@@ -2,6 +2,7 @@ import React from 'react'
 import Header from './_components/Header'
 import HistoryList from './_components/HistoryList'
 import { Button } from '@/components/ui/button'
+import DoctorsList from './_components/DoctorsList'
 
 function DashBoard() {
   return (
@@ -11,6 +12,7 @@ function DashBoard() {
         <Button>+ Consult with Doctor</Button> 
         </div>
         <HistoryList/>
+        <DoctorsList/>
     </div>
   )
 }
