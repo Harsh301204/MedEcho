@@ -23,7 +23,7 @@ export async function POST(req : NextRequest) {
 
     try {
         // check if user already exists in our Database or not
-        const users = await db.select().from(usersTable).where(eq(usersTable.clerkId , clerkId));
+        const users = await db.select().from(usersTable).where(eq(usersTable.clerkId ,  clerkId));
 
         if(users?.length == 0) {
             // if not , then we will create new user 
