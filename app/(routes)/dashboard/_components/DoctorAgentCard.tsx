@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
+import DialogSession from "./DialogSession";
 
 export type Doctor = {
   id: number;
@@ -22,7 +23,7 @@ function DoctorAgentCard({props} : DoctorProps) {
     <Image className="w-full h-[250] object-cover rounded-2xl" src={props.image} alt="img" width={200} height={300}/>
     <h2 className="font-bold text-xl">{props.specialist}</h2>
     <p className="line-clamp-2 text-sm text-gray-500">{props.description}</p>
-    <Button className="w-full mt-2">Start Consultation</Button>
+    <DialogSession/>
   </div>;
 }
 

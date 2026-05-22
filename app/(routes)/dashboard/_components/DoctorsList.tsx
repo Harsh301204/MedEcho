@@ -9,13 +9,13 @@ function DoctorsList() {
         <h2 className='font-bold text-xl'>AI Doctor Agents</h2>
 
         <div className='gap-10 grid sm:grid-col-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-items-center rounded-xl'>
-            {AIDoctorAgents.map((agent : Doctor , index) => (
+            {AIDoctorAgents.map((agents : Doctor , index) => (
                 <div key={index}>
-                    <DoctorAgentCard props={agent}/>
+                    <DoctorAgentCard props={agents}/>
                 </div>
             ))}
         </div>
-    </div>
+    </div> 
   )
 }
 
