@@ -18,7 +18,6 @@ function Provider({children} : Readonly<{
 }>) {
 
     const {isLoaded , user} = useUser();
-    console.log(user);
     const [userDetail , setUserDetail] = useState<UserDetail | null>(null)
     useEffect(() => {
         if(isLoaded && user) createNewUser();
