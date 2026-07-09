@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
           content:
             "User notes/Symptoms:" +
             notes +
-            ",analyze these notes and suggest list of doctors , Make sure to return response in a JSON object only",
+            ",analyze these notes and suggest list of doctors with all key value pairs provided in doctor object, Make sure to return response in a JSON object only",
         },
       ],
     });

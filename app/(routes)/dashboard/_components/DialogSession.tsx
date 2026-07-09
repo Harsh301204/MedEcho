@@ -14,41 +14,73 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import axios from "axios";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import React, { useState } from "react";
-import { Doctor } from "./DoctorAgentCard";
+import DoctorAgentCard, { Doctor } from "./DoctorAgentCard";
+import SuggestedDoctorCard from "./SuggestedDoctorCard";
 
 function DialogSession() {
   const [note, setNote] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const [suggestedDoctors, setSuggestedDoctors] = useState<any>();
+  const [suggestedDoctors, setSuggestedDoctors] = useState<Doctor[]>();
+  const [selectedDoctor , setSelectedDoctor] = useState<Doctor>()
 
-  const tempData = {
-      id: 1,
-      specialist: "General Physician",
-      description: "Helps with everyday health concerns and common symptoms.",
-      image: "/doctor1.png",
+  const tempData = [
+    {
+      id: 8,
+      specialist: "Orthopedic",
+      description: "Helps with bone, joint, and muscle pain.",
+      image: "/doctor8.png",
       agentPrompt:
-        "You are a friendly General Physician AI. Greet the user and quickly ask what symptoms they’re experiencing. Keep responses short and helpful.",
-      voiceId: "will",
-      subscriptionRequired: false,
-    }
+        "You are an understanding Orthopedic AI. Ask where the pain is and give short, supportive advice.",
+      voiceId: "aaliyah",
+      subscriptionRequired: true,
+    },
 
+    {
+      id: 2,
+      specialist: "Pediatrician",
+      description: "Expert in children's health, from babies to teens.",
+      image: "/doctor2.png",
+      agentPrompt:
+        "You are a kind Pediatrician AI. Ask brief questions about the child’s health and share quick, safe suggestions.",
+      voiceId: "chris",
+      subscriptionRequired: true,
+    },
+    {
+      id: 2,
+      specialist: "Pediatrician",
+      description: "Expert in children's health, from babies to teens.",
+      image: "/doctor2.png",
+      agentPrompt:
+        "You are a kind Pediatrician AI. Ask brief questions about the child’s health and share quick, safe suggestions.",
+      voiceId: "chris",
+      subscriptionRequired: true,
+    }
+  ];
 
   const onClickNext = async () => {
     setLoading(true);
     // const result = await axios.post('/api/suggest-doctors' , {
     //   notes : note
     // })
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     console.log("here we are now after getting response from api");
     // console.log(result);
     // console.log(result.data.suggested_doctors);
     // setSuggestedDoctors(result.data.suggested_doctors);
+    // console.log(tempData);
     setSuggestedDoctors(tempData);
     console.log("doctor state");
     console.log(suggestedDoctors);
+    // console.log(result.data.suggested_doctors);
     setLoading(false);
   };
+
+  const onStartConsultation = () => {
+    // need to save info
+  }
   return (
     <Dialog>
       <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full")}>
@@ -58,22 +90,45 @@ function DialogSession() {
         <DialogHeader>
           <DialogTitle>Add Basic Details</DialogTitle>
           <DialogDescription>
-            Add Symptoms Here
-            <Textarea
-              className="mt-1 h-50"
-              onChange={(e) => setNote(e.target.value)}
-            />
+            {!suggestedDoctors
+              ? "Add patient details below."
+              : "Suggested doctors based on the entered symptoms."}
           </DialogDescription>
         </DialogHeader>
+        {!suggestedDoctors ? (
+          <Textarea
+            className="mt-4 h-50"
+            onChange={(e) => setNote(e.target.value)}
+          />
+        ) : (
+          <div>
+            <h2>Select the Doctor</h2>
+          <div className="grid grid-cols-2 gap-5 mt-3 mb-4">
+            {Array.isArray(suggestedDoctors) &&
+              suggestedDoctors.map((doctor, index) => (
+                <SuggestedDoctorCard props={doctor} key={index} 
+                setSelectedDoctor={() => setSelectedDoctor(doctor)} />
+              ))}
+          </div>
+          </div>
+        )}
+
         <DialogFooter>
           <DialogClose className={cn(buttonVariants({ variant: "outline" }))}>
             {" "}
             Cancel{" "}
           </DialogClose>
-          <Button disabled={!note} onClick={() => onClickNext()}>
-            {" "}
-            Next <ArrowRight />{" "}
-          </Button>
+
+          {!suggestedDoctors ? (
+            <Button disabled={!note || loading} onClick={() => onClickNext()}>
+              Next{" "}
+              {loading ? <Loader2 className="animate-spin" /> : <ArrowRight />}
+            </Button>
+          ) : (
+            <Button onClick={() => onStartConsultation()}>Start Consultation</Button>
+          )}
+
+          {/* <Button disabled={!note} onClick={() => onClickNext()}>Next</Button> */}
         </DialogFooter>
       </DialogContent>
     </Dialog>
