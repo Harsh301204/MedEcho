@@ -61,17 +61,17 @@ function DialogSession() {
 
   const onClickNext = async () => {
     setLoading(true);
-    const result = await axios.post('/api/suggest-doctors' , {
-      notes : note
-    })
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    // const result = await axios.post('/api/suggest-doctors' , {
+    //   notes : note
+    // })
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // console.log("here we are now after getting response from api");
     // console.log(result);
     // console.log(result.data.suggested_doctors);
-    setSuggestedDoctors(result.data.suggested_doctors);
-    // console.log(tempData);
-    // setSuggestedDoctors(tempData);
+    // setSuggestedDoctors(result.data.suggested_doctors);
+    console.log(tempData);
+    setSuggestedDoctors(tempData);
     console.log("doctor state");
     console.log(suggestedDoctors);
     // console.log(result.data.suggested_doctors);
@@ -79,6 +79,7 @@ function DialogSession() {
   };
 
   const onStartConsultation = async () => {
+    setLoading(true)
     const result = await axios.post('/api/session-chat' , {
       notes : note,
       selectedDoctor : selectedDoctor
@@ -86,6 +87,7 @@ function DialogSession() {
 
     console.log("Here is the resposne of onStart Consulataion")
     console.log(result.data)
+    setLoading(false)
   }
   return (
     <Dialog>
@@ -113,7 +115,9 @@ function DialogSession() {
             {Array.isArray(suggestedDoctors) &&
               suggestedDoctors.map((doctor, index) => (
                 <SuggestedDoctorCard props={doctor} key={index} 
-                setSelectedDoctor={() => setSelectedDoctor(doctor)} />
+                setSelectedDoctor={() => setSelectedDoctor(doctor)} 
+                // @ts-ignore
+                selectedDoctor = {selectedDoctor}/>
               ))}
           </div>
           </div>
@@ -131,10 +135,10 @@ function DialogSession() {
               {loading ? <Loader2 className="animate-spin" /> : <ArrowRight />}
             </Button>
           ) : (
-            <Button onClick={() => onStartConsultation()}>Start Consultation</Button>
+            <Button disabled={loading || !selectedDoctor} onClick={() => onStartConsultation()}>Start Consultation {loading ? <Loader2 className="animate-spin" /> : <ArrowRight />}</Button>
           )}
 
-          {/* <Button disabled={!note} onClick={() => onClickNext()}>Next</Button> */}
+          
         </DialogFooter>
       </DialogContent>
     </Dialog>
