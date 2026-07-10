@@ -18,12 +18,16 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import DoctorAgentCard, { Doctor } from "./DoctorAgentCard";
 import SuggestedDoctorCard from "./SuggestedDoctorCard";
+import { useRouter } from "next/navigation";
+
 
 function DialogSession() {
   const [note, setNote] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [suggestedDoctors, setSuggestedDoctors] = useState<Doctor[]>();
   const [selectedDoctor , setSelectedDoctor] = useState<Doctor>()
+
+  const router = useRouter()
 
   const tempData = [
     {
@@ -85,9 +89,15 @@ function DialogSession() {
       selectedDoctor : selectedDoctor
     })
 
-    console.log("Here is the resposne of onStart Consulataion")
-    console.log(result.data)
-    setLoading(false)
+    if(result.data[0]?.sessionId) {
+      console.log("Here is the resposne of onStart Consulataion")
+      console.log(result.data[0])
+      router.push('/dashboard/medical-agent/' + result.data[0]?.sessionId)
+
+      setLoading(false)
+    }
+
+
   }
   return (
     <Dialog>
