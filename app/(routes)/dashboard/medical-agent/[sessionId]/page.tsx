@@ -4,8 +4,9 @@ import axios from 'axios'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Doctor } from '../../_components/DoctorAgentCard'
-import { Circle } from 'lucide-react'
+import { Circle, PhoneCall } from 'lucide-react'
 import Image from 'next/image'
+import { Button } from '@/components/ui/button'
 
 type sessionDetail = {
     id : number,
@@ -30,7 +31,7 @@ function MedicalVoiceAgent() {
         setSessionDetail(result.data)
     }
   return (
-    <div>
+    <div className='p-5 border rounded-3xl  bg-secondary'>
         <div className='flex justify-between'>
             <h2 className='border rounded-md flex p-1 gap-2 px-2 items-center'> <Circle className='h-4 w-4'/> Not Connected </h2>
             <h2 className='font-bold text-xl text-gray-500'>00:00</h2>
@@ -44,6 +45,13 @@ function MedicalVoiceAgent() {
 
             <h2 className='text-2xl font-bold mt-3'>{sessionDetail.selectedDoctor.specialist}</h2>
             <p className='text-sm text-gray-400'>AI Medical Voice Agent</p>
+
+            <div className='mt-32'>
+                <h2 className='text-gray-500'>Assistant Msg</h2>
+                <h2 className='text-lg justify-center'>User message</h2>
+            </div>
+
+            <Button className='mt-10 p-2 px-4 text-xl'> <PhoneCall/> Start Call</Button>
             </div>}
     </div>
   )
