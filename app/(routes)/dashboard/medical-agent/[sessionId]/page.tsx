@@ -24,6 +24,20 @@ function MedicalVoiceAgent() {
   const [callStarted, setCallStarted] = useState(false);
   const vapiRef = useRef<Vapi | null>(null);
 
+  const handleStartCall = () => {
+    setCallStarted(true)
+  }
+
+  const handleEndCall = () => {
+    setCallStarted(false)
+  }
+
+  const handleMessage = (message : any) => {
+    if (message.type === "transcript") {
+        console.log(`${message.role}: ${message.transcript}`);
+      }
+  }
+ 
   useEffect(() => {
     sessionId && getSessionDetails();
   }, [sessionId]);
@@ -31,22 +45,18 @@ function MedicalVoiceAgent() {
   useEffect(() => {
     vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_API_KEY!);
 
-    vapiRef.current.on("call-start", () => {
-      setCallStarted(true);
-    });
+    vapiRef.current.on("call-start", handleStartCall);
 
-    vapiRef.current.on("call-end", () => {
-      setCallStarted(false);
-    });
+    vapiRef.current.on("call-end" , handleEndCall);
 
-    vapiRef.current?.on("message", (message) => {
-      if (message.type === "transcript") {
-        console.log(`${message.role}: ${message.transcript}`);
-      }
-    });
+    vapiRef.current?.on("message", handleMessage);
 
     return () => {
         vapiRef.current?.stop()
+        vapiRef.current?.off('call-start' , handleStartCall);
+        vapiRef.current?.off("call-end" , handleEndCall);
+        vapiRef.current?.off("message" , handleMessage);
+        
     }
   }, []);
 
@@ -55,20 +65,6 @@ function MedicalVoiceAgent() {
     console.log(result.data);
     setSessionDetail(result.data);
   };
-  //     const startCall = () => {
-  //     vapi.start(process.env.NEXT_PUBLIC_VAPI_VOICE_ASSISTANT_ID);
-  //     vapi.on("call-start", () => { console.log("Call started");
-  //   setCallStarted(true); });
-  //   vapi.on("call-end", () => { console.log("Call ended");
-  //   setCallStarted(false); });
-  //   vapi.on("message", (message) => { if (message.type === "transcript")
-  //   { console.log(${message.role}: ${message.transcript}); } }); };
-
-  //   const endCall = () => {
-  //     if (vapi) {
-  //         vapi.stop();
-  //     }
-  //     };
 
   const startCall = () => {
     vapiRef.current?.start(process.env.NEXT_PUBLIC_VAPI_VOICE_ASSISTANT_ID!);
