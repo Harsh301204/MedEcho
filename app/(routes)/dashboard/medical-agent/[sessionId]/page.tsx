@@ -18,26 +18,45 @@ type sessionDetail = {
   createdBy: string;
 };
 
+type messages = {
+  role : string;
+  text : string;
+}
+
 function MedicalVoiceAgent() {
   const { sessionId } = useParams();
   const [sessionDetail, setSessionDetail] = useState<sessionDetail>();
   const [callStarted, setCallStarted] = useState(false);
+  const [isSpeaking , setIsSpeaking] = useState(false);
+  const [currRole , setCurrRole] = useState<string | null>()
+  const [liveTypeScript , setLiveTypeScript] = useState<string>()
+  const [messages , setMessages] = useState<messages[]>()
   const vapiRef = useRef<Vapi | null>(null);
 
   const handleStartCall = () => {
-    setCallStarted(true)
-  }
+    setCallStarted(true);
+  };
 
   const handleEndCall = () => {
-    setCallStarted(false)
-  }
+    setCallStarted(false);
+  };
 
-  const handleMessage = (message : any) => {
+  const handleMessage = (message: any) => {
     if (message.type === "transcript") {
-        console.log(`${message.role}: ${message.transcript}`);
+      const {role , transcriptType , transcript} = message
+      console.log(`${message.role}: ${message.transcript}`);
+      if(transcriptType == 'partial') {
+        setLiveTypeScript(transcript);
+        setCurrRole(role)
+      } else if(transcriptType == 'final'){
+        setMessages((prev : any) => [...prev , {role : role , text : transcript}])
+        setLiveTypeScript("");
+        setCurrRole(null)
       }
-  }
- 
+
+    }
+  };
+
   useEffect(() => {
     sessionId && getSessionDetails();
   }, [sessionId]);
@@ -47,17 +66,25 @@ function MedicalVoiceAgent() {
 
     vapiRef.current.on("call-start", handleStartCall);
 
-    vapiRef.current.on("call-end" , handleEndCall);
+    vapiRef.current.on("call-end", handleEndCall);
 
     vapiRef.current?.on("message", handleMessage);
 
+    vapiRef.current?.on("speech-start", () => {
+      console.log("Assistant started speaking");
+      setCurrRole("assistant")
+    });
+    vapiRef.current?.on("speech-end", () => {
+      console.log("Assistant stopped speaking");
+      setCurrRole("user")
+    });
+
     return () => {
-        vapiRef.current?.stop()
-        vapiRef.current?.off('call-start' , handleStartCall);
-        vapiRef.current?.off("call-end" , handleEndCall);
-        vapiRef.current?.off("message" , handleMessage);
-        
-    }
+      vapiRef.current?.stop();
+      vapiRef.current?.off("call-start", handleStartCall);
+      vapiRef.current?.off("call-end", handleEndCall);
+      vapiRef.current?.off("message", handleMessage);
+    };
   }, []);
 
   const getSessionDetails = async () => {
@@ -102,7 +129,7 @@ function MedicalVoiceAgent() {
 
           <div className="mt-32">
             <h2 className="text-gray-500">Assistant Msg</h2>
-            <h2 className="text-lg justify-center">User message</h2>
+            <h2 className="text-lg justify-center">{currRole} : {liveTypeScript}</h2>
           </div>
           {!callStarted ? (
             <Button className="mt-10 p-2 px-4 text-xl" onClick={startCall}>
