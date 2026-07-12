@@ -30,7 +30,7 @@ function MedicalVoiceAgent() {
   const [isSpeaking , setIsSpeaking] = useState(false);
   const [currRole , setCurrRole] = useState<string | null>()
   const [liveTypeScript , setLiveTypeScript] = useState<string>()
-  const [messages , setMessages] = useState<messages[]>()
+  const [messages , setMessages] = useState<messages[]>([])
   const vapiRef = useRef<Vapi | null>(null);
 
   const handleStartCall = () => {
@@ -129,7 +129,7 @@ function MedicalVoiceAgent() {
 
           <div className="mt-32">
             <h2 className="text-gray-500">Assistant Msg</h2>
-            <h2 className="text-lg justify-center">{currRole} : {liveTypeScript}</h2>
+            {liveTypeScript && liveTypeScript?.length > 0 && <h2 className="text-lg justify-center">{currRole} : {liveTypeScript}</h2>}
           </div>
           {!callStarted ? (
             <Button className="mt-10 p-2 px-4 text-xl" onClick={startCall}>
