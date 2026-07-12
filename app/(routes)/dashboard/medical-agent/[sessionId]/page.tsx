@@ -127,8 +127,11 @@ function MedicalVoiceAgent() {
           </h2>
           <p className="text-sm text-gray-400">AI Medical Voice Agent</p>
 
-          <div className="mt-32">
-            <h2 className="text-gray-500">Assistant Msg</h2>
+          <div className="mt-32 overflow-y-auto">
+            {messages?.slice(-4).map((msg , index) => (
+                <h2 key={index} className="text-gray-400"> {msg.role} : {msg.text}</h2>
+            ))}
+
             {liveTypeScript && liveTypeScript?.length > 0 && <h2 className="text-lg justify-center">{currRole} : {liveTypeScript}</h2>}
           </div>
           {!callStarted ? (
