@@ -127,7 +127,7 @@ function MedicalVoiceAgent() {
           </h2>
           <p className="text-sm text-gray-400">AI Medical Voice Agent</p>
 
-          <div className="mt-32 overflow-y-auto">
+          <div className="mt-32 overflow-y-auto flex flex-col items-center justify-center px-10 md:px-28 lg:px-52 xl:px-72">
             {messages?.slice(-4).map((msg , index) => (
                 <h2 key={index} className="text-gray-400"> {msg.role} : {msg.text}</h2>
             ))}
