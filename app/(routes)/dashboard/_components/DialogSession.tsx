@@ -37,7 +37,7 @@ function DialogSession() {
       image: "/doctor8.png",
       agentPrompt:
         "You are an understanding Orthopedic AI. Ask where the pain is and give short, supportive advice.",
-      voiceId: "aaliyah",
+      voiceId: "Savannah",
       subscriptionRequired: true,
     },
 

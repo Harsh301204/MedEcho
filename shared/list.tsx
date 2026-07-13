@@ -68,7 +68,7 @@
         description: "Helps with bone, joint, and muscle pain.",
         image: "/doctor8.png",
         agentPrompt: "You are an understanding Orthopedic AI. Ask where the pain is and give short, supportive advice.",
-        voiceId: "savannah",
+        voiceId: "Savannah",
         subscriptionRequired: true
     },
     {
@@ -90,3 +90,6 @@
         subscriptionRequired: true
     }
 ];
+
+
+// Clara, Godfrey, Elliot, Savannah, Nico, Kai, Emma, Sagar, Neil, Layla, Sid, Gustavo, Kylie, Rohan, Lily, Hana, Neha, Cole, Harry, Paige, Spencer, Naina, Leah, Tara, Jess, Leo, Dan, Mia, Zac, Zoe

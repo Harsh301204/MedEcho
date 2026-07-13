@@ -33,6 +33,8 @@ function MedicalVoiceAgent() {
   const [messages , setMessages] = useState<messages[]>([])
   const vapiRef = useRef<Vapi | null>(null);
 
+
+
   const handleStartCall = () => {
     setCallStarted(true);
   };
@@ -63,6 +65,7 @@ function MedicalVoiceAgent() {
 
   useEffect(() => {
     vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_API_KEY!);
+    console.log(process.env.NEXT_PUBLIC_API_KEY!)
 
     vapiRef.current.on("call-start", handleStartCall);
 
@@ -94,7 +97,38 @@ function MedicalVoiceAgent() {
   };
 
   const startCall = () => {
-    vapiRef.current?.start(process.env.NEXT_PUBLIC_VAPI_VOICE_ASSISTANT_ID!);
+    const vapiAgentConfig = {
+      name : "AI Medical Voice Agent",
+      firstMessage : "Hello! I'm your AI medical assistant. I can help you understand your symptoms and provide general health information, but I'm not a substitute for a licensed medical professional.",
+      transcriber:{
+        provider:'assembly-ai',
+        language:'en'
+      },
+      voice:{
+        provider:'vapi',
+        voiceId : sessionDetail?.selectedDoctor?.voiceId
+      },
+      model:{
+        provider:'google',
+        model:'gemini-2.5-flash',
+        messages:[
+          {
+            role:'system',
+            content:sessionDetail?.selectedDoctor?.agentPrompt
+          }
+        ]
+      }
+    }
+    console.log(vapiAgentConfig)
+    try {
+      // @ts-ignore
+      vapiRef.current?.start(vapiAgentConfig);
+    } catch (error) {
+      console.log(error)
+
+    }
+    
+    
   };
 
   const endCall = () => {
