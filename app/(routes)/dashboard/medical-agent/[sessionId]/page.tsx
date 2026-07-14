@@ -134,6 +134,17 @@ function MedicalVoiceAgent() {
   const endCall = () => {
     vapiRef.current?.stop();
   };
+
+
+  const generateReport = async () => {
+    const result = await axios.post('/api/medical-report' , {
+      messages : messages,
+      sessionDetail : sessionDetail,
+      sessionId : sessionId
+    })
+
+    console.log(result.data)
+  }
   return (
     <div className="p-5 border rounded-3xl  bg-secondary">
       <div className="flex justify-between">
