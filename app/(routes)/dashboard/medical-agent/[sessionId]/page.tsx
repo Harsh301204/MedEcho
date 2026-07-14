@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Doctor } from "../../_components/DoctorAgentCard";
-import { Circle, PhoneCall, PhoneOff } from "lucide-react";
+import { Circle, Divide, Loader, PhoneCall, PhoneOff } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
@@ -32,10 +32,10 @@ function MedicalVoiceAgent() {
   const [liveTypeScript , setLiveTypeScript] = useState<string>()
   const [messages , setMessages] = useState<messages[]>([])
   const vapiRef = useRef<Vapi | null>(null);
-
-
+  const [loading , setLoading] = useState(false)
 
   const handleStartCall = () => {
+    setLoading(false)
     setCallStarted(true);
   };
 
@@ -65,7 +65,7 @@ function MedicalVoiceAgent() {
 
   useEffect(() => {
     vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_API_KEY!);
-    console.log(process.env.NEXT_PUBLIC_API_KEY!)
+    // console.log(process.env.NEXT_PUBLIC_API_KEY!)
 
     vapiRef.current.on("call-start", handleStartCall);
 
@@ -96,7 +96,8 @@ function MedicalVoiceAgent() {
     setSessionDetail(result.data);
   };
 
-  const startCall = () => {
+  const startCall = async () => {
+    setLoading(true)
     const vapiAgentConfig = {
       name : "AI Medical Voice Agent",
       firstMessage : "Hello! I'm your AI medical assistant. I can help you understand your symptoms and provide general health information, but I'm not a substitute for a licensed medical professional.",
@@ -119,7 +120,6 @@ function MedicalVoiceAgent() {
         ]
       }
     }
-    console.log(vapiAgentConfig)
     try {
       // @ts-ignore
       vapiRef.current?.start(vapiAgentConfig);
@@ -131,8 +131,11 @@ function MedicalVoiceAgent() {
     
   };
 
-  const endCall = () => {
+  const endCall = async () => {
+    setLoading(true)
     vapiRef.current?.stop();
+
+    setLoading(false)
   };
 
 
@@ -180,8 +183,9 @@ function MedicalVoiceAgent() {
             {liveTypeScript && liveTypeScript?.length > 0 && <h2 className="text-lg justify-center">{currRole} : {liveTypeScript}</h2>}
           </div>
           {!callStarted ? (
-            <Button className="mt-10 p-2 px-4 text-xl" onClick={startCall}>
-              <PhoneCall /> Start Call
+            <Button className="mt-10 p-2 px-4 text-xl" onClick={startCall} disabled={loading}>
+              {loading ? <Loader className="animate-spin"/> : <PhoneCall  />}
+              Start Call
             </Button>
           ) : (
             <Button
@@ -189,7 +193,8 @@ function MedicalVoiceAgent() {
               variant={"destructive"}
               className={"mt-10 p-2 px-4 text-xl"}
             >
-              <PhoneOff /> Disconnect
+              {loading ? <Loader className="animate-spin"/> : <PhoneOff />}
+               Disconnect
             </Button>
           )}
         </div>
