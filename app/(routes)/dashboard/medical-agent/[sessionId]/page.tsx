@@ -134,6 +134,7 @@ function MedicalVoiceAgent() {
   const endCall = async () => {
     setLoading(true)
     vapiRef.current?.stop();
+    const result = await generateReport();
 
     setLoading(false)
   };
