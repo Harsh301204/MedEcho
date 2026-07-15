@@ -42,7 +42,10 @@ export async function POST(req: NextRequest) {
   const { messages, sessionDetail, sessionId } = await req.json();
 
   try {
+    // console.log(messages)
+    // console.log(sessionDetail)
     const userInput = "AI Doctor Agent Info :" + JSON.stringify(sessionDetail) + ", conversation : " + JSON.stringify(messages)
+    // console.log(userInput)
     const apiResponse = await client.chat.completions.create({
       model: "google/gemma-4-31b-it:free",
       messages: [
@@ -71,6 +74,8 @@ export async function POST(req: NextRequest) {
     console.log("type of curr :", typeof currRes);
 
     const JSONres = JSON.parse(currRes);
+
+    // also need to save response to Database
     console.log("JSON response", JSONres);
     return NextResponse.json(JSONres);
   } catch (error) {
