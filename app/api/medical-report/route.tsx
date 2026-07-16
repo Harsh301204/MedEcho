@@ -81,10 +81,11 @@ export async function POST(req: NextRequest) {
     // also need to save response to Database
 
     const result = await db.update(sessionChatTable).set({
-      report : JSONres
+      report : JSONres,
+      conversation : messages
     }).where(eq(sessionChatTable.sessionId , sessionId))
 
-    
+
     console.log("JSON response", JSONres);
     return NextResponse.json(JSONres);
   } catch (error) {
