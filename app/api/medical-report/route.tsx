@@ -1,4 +1,7 @@
+import { db } from "@/config/db";
 import { client } from "@/config/openAI";
+import { sessionChatTable } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 const report_gen_prompt = `
@@ -76,6 +79,12 @@ export async function POST(req: NextRequest) {
     const JSONres = JSON.parse(currRes);
 
     // also need to save response to Database
+
+    const result = await db.update(sessionChatTable).set({
+      report : JSONres
+    }).where(eq(sessionChatTable.sessionId , sessionId))
+
+    
     console.log("JSON response", JSONres);
     return NextResponse.json(JSONres);
   } catch (error) {

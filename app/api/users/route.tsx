@@ -40,6 +40,7 @@ export async function POST(req : NextRequest) {
         return NextResponse.json(users[0]);
         
     } catch (error) {
+        console.log("here is the error issue , can fetch user")
         return NextResponse.json(error);
     }
 
