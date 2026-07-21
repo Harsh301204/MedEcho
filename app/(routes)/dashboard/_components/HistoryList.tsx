@@ -4,9 +4,17 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import DialogSession from './DialogSession'
+import axios from 'axios'
 
 function HistoryList() {
     const [historyList , setHistoryList] = useState([])
+
+    const getHistoryList = async () => {
+      const result = await axios.get('/api/session-chat?sessionId=all');
+      // @ts-ignore
+      setHistoryList(result.data)
+      console.log(result.data)
+    }
   return (
     <div className='mt-10'>
         {historyList.length == 0 ?     
