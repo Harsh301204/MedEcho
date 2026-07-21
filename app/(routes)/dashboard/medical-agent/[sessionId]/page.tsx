@@ -8,6 +8,7 @@ import { Circle, Divide, Loader, PhoneCall, PhoneOff } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
+import { useRouter } from "next/navigation";
 
 type sessionDetail = {
   id: number;
@@ -33,6 +34,7 @@ function MedicalVoiceAgent() {
   const [messages , setMessages] = useState<messages[]>([])
   const vapiRef = useRef<Vapi | null>(null);
   const [loading , setLoading] = useState(false)
+  const router = useRouter();
 
   const handleStartCall = () => {
     setLoading(false)
@@ -65,7 +67,6 @@ function MedicalVoiceAgent() {
 
   useEffect(() => {
     vapiRef.current = new Vapi(process.env.NEXT_PUBLIC_API_KEY!);
-    // console.log(process.env.NEXT_PUBLIC_API_KEY!)
 
     vapiRef.current.on("call-start", handleStartCall);
 
@@ -137,6 +138,7 @@ function MedicalVoiceAgent() {
     const result = await generateReport();
 
     setLoading(false)
+    router.push('/dashboard')
   };
 
 
