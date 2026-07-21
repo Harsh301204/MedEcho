@@ -10,12 +10,15 @@ import {
 } from "@/components/ui/table";
 import { sessionDetail } from "../medical-agent/[sessionId]/page";
 import { Button } from "@/components/ui/button";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 type Props = {
   historyList: sessionDetail[];
 };
 
 function HistoryTable({ historyList }: Props) {
+    dayjs.extend(relativeTime);
   return (
     <div>
       <Table>
@@ -33,7 +36,7 @@ function HistoryTable({ historyList }: Props) {
             <TableRow key={id}>
               <TableCell className="font-medium">{record.selectedDoctor.specialist}</TableCell>
               <TableCell>{record.notes}</TableCell>
-              <TableCell>{record.createdOn}</TableCell>
+              <TableCell>{dayjs(record.createdOn).fromNow()}</TableCell>
               <TableCell className="text-right"><Button size={'sm'} variant={'link'} >View Report</Button></TableCell>
             </TableRow>
           ))}
