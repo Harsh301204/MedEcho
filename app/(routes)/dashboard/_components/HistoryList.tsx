@@ -2,12 +2,16 @@
 
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DialogSession from './DialogSession'
 import axios from 'axios'
 
 function HistoryList() {
     const [historyList , setHistoryList] = useState([])
+
+    useEffect(()=> {
+      getHistoryList()
+    } , [])
 
     const getHistoryList = async () => {
       const result = await axios.get('/api/session-chat?sessionId=all');
