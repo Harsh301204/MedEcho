@@ -138,7 +138,7 @@ function MedicalVoiceAgent() {
     const result = await generateReport();
 
     setLoading(false)
-    router.push('/dashboard')
+    router.replace('/dashboard')
   };
 
 

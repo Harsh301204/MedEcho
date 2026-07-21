@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     const { notes } = await req.json();
-    console.log("Here are notes");
-    console.log(notes);
     const apiResponse = await client.chat.completions.create({
       model: "google/gemma-4-31b-it:free",
       messages: [
@@ -25,20 +23,16 @@ export async function POST(req: NextRequest) {
     });
 
     const response = apiResponse.choices[0].message || "";
-    console.log("here is the response from api");
-    console.log("Content:", response.content);
-    console.log("Type:", typeof response.content);
     // @ts-ignore
     const currRes = response.content
       .trim()
       .replace("```json", "")
       .replace("```", "");
 
-    console.log("Cleaned:", currRes);
-    console.log("type of curr :", typeof currRes)
+
 
     const JSONres = JSON.parse(currRes);
-    console.log('JSON response' ,JSONres);
+
     return NextResponse.json(JSONres);
   } catch (error) {
     console.log("Here we are with error");
