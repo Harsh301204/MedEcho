@@ -9,6 +9,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Vapi from "@vapi-ai/web";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type sessionDetail = {
   id: number;
@@ -138,6 +139,7 @@ function MedicalVoiceAgent() {
     const result = await generateReport();
 
     setLoading(false)
+    toast.success("Report Generated Successfully !!")
     router.replace('/dashboard')
   };
 
