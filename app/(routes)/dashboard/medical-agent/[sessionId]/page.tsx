@@ -11,13 +11,14 @@ import Vapi from "@vapi-ai/web";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-type sessionDetail = {
+export type sessionDetail = {
   id: number;
   sessionId: string;
   notes: string;
   report: JSON;
   selectedDoctor: Doctor;
   createdBy: string;
+  createdOn : string
 };
 
 type messages = {

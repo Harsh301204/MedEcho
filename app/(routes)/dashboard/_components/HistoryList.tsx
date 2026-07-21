@@ -5,9 +5,11 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import DialogSession from './DialogSession'
 import axios from 'axios'
+import HistoryTable from './HistoryTable'
+import { sessionDetail } from '../medical-agent/[sessionId]/page'
 
 function HistoryList() {
-    const [historyList , setHistoryList] = useState([])
+    const [historyList , setHistoryList] = useState<sessionDetail[]>([])
 
     useEffect(()=> {
       getHistoryList()
@@ -27,7 +29,9 @@ function HistoryList() {
         <h2 className='font-bold text-2xl mt-2'>No Recent Consultations</h2>
         <p className=''>It looks like you haven't consulted with any doctors yet</p>
         <div><DialogSession/></div>
-    </div>: <div>List</div>}
+    </div>: <div>
+        <HistoryTable historyList = {historyList}/>
+      </div>}
 
     </div>
   )
