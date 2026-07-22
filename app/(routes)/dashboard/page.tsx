@@ -4,6 +4,7 @@ import HistoryList from './_components/HistoryList'
 import { Button } from '@/components/ui/button'
 import DoctorsList from './_components/DoctorsList'
 import DialogSession from './_components/DialogSession'
+import ViewReportDialog from './_components/ViewReportDialog'
 
 function DashBoard() {
   return (

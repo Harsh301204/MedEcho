@@ -12,6 +12,7 @@ import { sessionDetail } from "../medical-agent/[sessionId]/page";
 import { Button } from "@/components/ui/button";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import ViewReportDialog from "./ViewReportDialog";
 
 type Props = {
   historyList: sessionDetail[];
@@ -37,7 +38,7 @@ function HistoryTable({ historyList }: Props) {
               <TableCell className="font-medium">{record.selectedDoctor.specialist}</TableCell>
               <TableCell>{record.notes}</TableCell>
               <TableCell>{dayjs(record.createdOn).fromNow()}</TableCell>
-              <TableCell className="text-right"><Button size={'sm'} variant={'link'} >View Report</Button></TableCell>
+              <TableCell className="text-right"> <ViewReportDialog record = {record}/> </TableCell>
             </TableRow>
           ))}
         </TableBody>
