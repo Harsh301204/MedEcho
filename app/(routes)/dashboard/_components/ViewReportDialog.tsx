@@ -11,28 +11,67 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { sessionDetail } from "../medical-agent/[sessionId]/page";
+import { Stethoscope, StethoscopeIcon } from "lucide-react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 type props = {
-    record : sessionDetail
-}
+  record: sessionDetail;
+};
 
-function ViewReportDialog({record} : props) {
+function ViewReportDialog({ record }: props) {
+    dayjs.extend(relativeTime);
   return (
     <Dialog>
-      <DialogTrigger 
-        render={<Button size={'sm'} variant={'link'} >View Report</Button>}
+      <DialogTrigger
+        render={
+          <Button size={"sm"} variant={"link"}>
+            View Report
+          </Button>
+        }
       />
       <DialogContent>
         <DialogHeader>
-            {/* @ts-ignore */}
-          <DialogTitle className='text-2xl text-center'>
-            <span>Hello</span>
-            <br />
-            Detailed Report
+          {/* @ts-ignore */}
+          <DialogTitle aschild="true">
+            <div className="flex justify-center gap-2">
+              <StethoscopeIcon />
+              <div className="text-blue-500 text-xl font-extrabold">
+                MedEcho Voice Agent Report
+              </div>
+            </div>
           </DialogTitle>
-          <DialogDescription>
-            {record.notes}
-          </DialogDescription>
+          <div className="border-b-2 border-blue-500 mt-5">
+            <div className="flex items-start font-bold text-xl text-blue-400">
+              Session Info
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 text-gray-600 gap-3 mt-1 mb-1">
+            <div>
+                <span className="font-bold">Doctor : </span> {record.selectedDoctor.specialist}
+            </div>
+            <div>
+                <span className="font-bold">User : </span> {record.id}
+            </div>
+            <div>
+                <span className="font-bold">Consulted On : </span> {dayjs(record.createdOn).format('YYYY-MM-DD , HH:mm')}
+            </div>
+            <div>
+                <span className="font-bold">Agent : </span> {record.selectedDoctor.voiceId}
+            </div>
+          </div>
+
+            <div className="border-b-2 border-blue-500 mt-5">
+                <div className="flex items-start font-bold text-xl text-blue-400">
+                    Chief Complaint
+                </div>
+            </div>
+
+            <div className="font-bold text-l text-gray-600">
+                
+            </div>
+          
         </DialogHeader>
         <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
           {Array.from({ length: 10 }).map((_, index) => (
