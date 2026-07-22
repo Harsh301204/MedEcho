@@ -41,13 +41,16 @@ function ViewReportDialog({ record }: props) {
               </div>
             </div>
           </DialogTitle>
-          <div className="border-b-2 border-blue-500 mt-5">
+        </DialogHeader>
+
+        <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
+            <div className="border-b-2 border-blue-500 mt-3">
             <div className="flex items-start font-bold text-xl text-blue-400">
               Session Info
             </div>
           </div>
 
-          <div className="grid grid-cols-2 text-gray-600 gap-3 mb-1">
+          <div className="grid grid-cols-2 text-gray-600 gap-3 mb-1 mt-2">
             <div>
                 <span className="font-bold">Doctor : </span> {record.selectedDoctor.specialist}
             </div>
@@ -62,30 +65,30 @@ function ViewReportDialog({ record }: props) {
             </div>
           </div>
 
-            <div className="border-b-2 border-blue-500 mt-5">
+            <div className="border-b-2 border-blue-500 mt-3">
                 <div className="flex items-start font-bold text-xl text-blue-400">
                     Chief Complaint
                 </div>
             </div>
 
-            <div className="font-bold text-l text-gray-600">
+            <div className="font-bold text-l text-gray-600 mt-2">
                 {/* @ts-ignore */}
                 {record.report.chiefComplaint}
             </div>
+
+
+            <div className="border-b-2 border-blue-500 mt-3">
+                <div className="flex items-start font-bold text-xl text-blue-400">
+                    Summary
+                </div>
+            </div>
+
+            <div className="font-bold text-l text-gray-600 mt-2">
+                {/* @ts-ignore */}
+                {record.report.summary}
+            </div>
+
           
-        </DialogHeader>
-        <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <p key={index} className="mb-4 leading-normal">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-          ))}
         </div>
       </DialogContent>
     </Dialog>
