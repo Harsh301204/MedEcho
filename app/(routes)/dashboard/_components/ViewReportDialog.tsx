@@ -20,7 +20,7 @@ type props = {
 };
 
 function ViewReportDialog({ record }: props) {
-    dayjs.extend(relativeTime);
+  dayjs.extend(relativeTime);
   return (
     <Dialog>
       <DialogTrigger
@@ -44,7 +44,7 @@ function ViewReportDialog({ record }: props) {
         </DialogHeader>
 
         <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
-            <div className="border-b-2 border-blue-500 mt-3">
+          <div className="border-b-2 border-blue-500 mt-3">
             <div className="flex items-start font-bold text-xl text-blue-400">
               Session Info
             </div>
@@ -52,41 +52,58 @@ function ViewReportDialog({ record }: props) {
 
           <div className="grid grid-cols-2 text-gray-600 gap-3 mb-1 mt-2">
             <div>
-                <span className="font-bold">Doctor : </span> {record.selectedDoctor.specialist}
+              <span className="font-bold">Doctor : </span>{" "}
+              {record.selectedDoctor.specialist}
             </div>
             <div>
-                <span className="font-bold">User : </span> {record.id}
+              <span className="font-bold">User : </span> {record.id}
             </div>
             <div>
-                <span className="font-bold">Consulted On : </span> {dayjs(record.createdOn).format('YYYY-MM-DD , HH:mm')}
+              <span className="font-bold">Consulted On : </span>{" "}
+              {dayjs(record.createdOn).format("YYYY-MM-DD , HH:mm")}
             </div>
             <div>
-                <span className="font-bold">Agent : </span> {record.selectedDoctor.voiceId}
+              <span className="font-bold">Agent : </span>{" "}
+              {record.selectedDoctor.voiceId}
             </div>
           </div>
 
-            <div className="border-b-2 border-blue-500 mt-3">
-                <div className="flex items-start font-bold text-xl text-blue-400">
-                    Chief Complaint
-                </div>
+          <div className="border-b-2 border-blue-500 mt-3">
+            <div className="flex items-start font-bold text-xl text-blue-400">
+              Chief Complaint
             </div>
+          </div>
 
-            <div className="font-bold text-l text-gray-600 mt-2">
+          <div className="font-bold text-l text-gray-600 mt-2">
+            {/* @ts-ignore */}
+            {record.report.chiefComplaint}
+          </div>
+
+          <div className="border-b-2 border-blue-500 mt-3">
+            <div className="flex items-start font-bold text-xl text-blue-400">
+              Summary
+            </div>
+          </div>
+
+          <div className="font-bold text-l text-gray-600 mt-2">
+            {/* @ts-ignore */}
+            {record.report.summary}
+          </div>
+
+          <div className="border-b-2 border-blue-500 mt-3">
+            <div className="flex items-start font-bold text-xl text-blue-400">
+              Symptoms
+            </div>
+          </div>
+
+          <div className="font-bold text-l text-gray-600 mt-2">
+            <ul className="list-disc list-inside">
                 {/* @ts-ignore */}
-                {record.report.chiefComplaint}
-            </div>
-
-
-            <div className="border-b-2 border-blue-500 mt-3">
-                <div className="flex items-start font-bold text-xl text-blue-400">
-                    Summary
-                </div>
-            </div>
-
-            <div className="font-bold text-l text-gray-600 mt-2">
-                {/* @ts-ignore */}
-                {record.report.summary}
-            </div>
+              {record.report.symptoms.map((symptom, index) => (
+                <li key={index}>{symptom}</li>
+              ))}
+            </ul>
+          </div>
 
           
         </div>
