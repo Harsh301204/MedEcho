@@ -18,7 +18,6 @@ type DoctorProps = {
 }
 
 function DoctorAgentCard({props} : DoctorProps) {
-    console.log(props)
   return <div className="flex flex-col justify-center items-center rounded-xl p-2 ">
     <Image className="w-full h-[250] object-cover rounded-2xl" src={props.image} alt="img" width={200} height={300}/>
     <p className="font-bold text-xl">{props.specialist}</p>

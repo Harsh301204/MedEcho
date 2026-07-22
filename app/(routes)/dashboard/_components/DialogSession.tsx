@@ -29,46 +29,14 @@ function DialogSession() {
 
   const router = useRouter()
 
-  const tempData = [
-    {
-      id: 8,
-      specialist: "Orthopedic",
-      description: "Helps with bone, joint, and muscle pain.",
-      image: "/doctor8.png",
-      agentPrompt:
-        "You are an understanding Orthopedic AI. Ask where the pain is and give short, supportive advice.",
-      voiceId: "Savannah",
-      subscriptionRequired: true,
-    },
-
-    {
-      id: 2,
-      specialist: "Pediatrician",
-      description: "Expert in children's health, from babies to teens.",
-      image: "/doctor2.png",
-      agentPrompt:
-        "You are a kind Pediatrician AI. Ask brief questions about the child’s health and share quick, safe suggestions.",
-      voiceId: "Elliot",
-      subscriptionRequired: true,
-    }
-  ];
-
   const onClickNext = async () => {
     setLoading(true);
     const result = await axios.post('/api/suggest-doctors' , {
       notes : note
     })
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // console.log("here we are now after getting response from api");
-    // console.log(result);
-    // console.log(result.data.suggested_doctors);
     setSuggestedDoctors(result.data.suggested_doctors);
-    // console.log(tempData);
-    // setSuggestedDoctors(tempData);
-    console.log("doctor state");
-    console.log(suggestedDoctors);
-    // console.log(result.data.suggested_doctors);
+
     setLoading(false);
   };
 
@@ -80,8 +48,6 @@ function DialogSession() {
     })
 
     if(result.data[0]?.sessionId) {
-      console.log("Here is the resposne of onStart Consulataion")
-      console.log(result.data[0])
       router.push('/dashboard/medical-agent/' + result.data[0]?.sessionId)
 
       setLoading(false)

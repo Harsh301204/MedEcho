@@ -44,7 +44,7 @@ function MedicalVoiceAgent() {
   };
 
   const handleEndCall = () => {
-    setCallStarted(false);
+    // setCallStarted(false);
   };
 
   const handleMessage = (message: any) => {
@@ -139,7 +139,7 @@ function MedicalVoiceAgent() {
     vapiRef.current?.stop();
     const result = await generateReport();
 
-    setLoading(false)
+    setCallStarted(false)
     toast.success("Report Generated Successfully !!")
     router.replace('/dashboard')
   };
@@ -198,6 +198,7 @@ function MedicalVoiceAgent() {
               onClick={endCall}
               variant={"destructive"}
               className={"mt-10 p-2 px-4 text-xl"}
+              disabled={loading}
             >
               {loading ? <Loader className="animate-spin"/> : <PhoneOff />}
                Disconnect
