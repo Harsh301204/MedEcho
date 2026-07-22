@@ -98,14 +98,49 @@ function ViewReportDialog({ record }: props) {
 
           <div className="font-bold text-l text-gray-600 mt-2">
             <ul className="list-disc list-inside">
-                {/* @ts-ignore */}
+              {/* @ts-ignore */}
               {record.report.symptoms.map((symptom, index) => (
                 <li key={index}>{symptom}</li>
               ))}
             </ul>
           </div>
 
-          
+          <div className="border-b-2 border-blue-500 mt-3">
+            <div className="flex items-start font-bold text-xl text-blue-400">
+              Medications Suggested
+            </div>
+          </div>
+
+          <div className="font-bold text-lg text-gray-600 mt-2">
+            {/* @ts-ignore */}
+            {record.report.medicationsMentioned.length > 0 ? (
+              <ul className="list-disc list-inside">
+                {/* @ts-ignore */}
+                {record.report.medicationsMentioned.map((medication, index) => (
+                  <li key={index}>{medication}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-600 font-bold text-sm">
+                No medications suggested
+              </p>
+            )}
+          </div>
+
+          <div className="border-b-2 border-blue-500 mt-3">
+            <div className="flex items-start font-bold text-xl text-blue-400">
+              Recommendations
+            </div>
+          </div>
+
+          <div className="font-bold text-l text-gray-600 mt-2">
+            <ul className="list-disc list-inside">
+              {/* @ts-ignore */}
+              {record.report.recommendations.map((symptom, index) => (
+                <li key={index}>{symptom}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
