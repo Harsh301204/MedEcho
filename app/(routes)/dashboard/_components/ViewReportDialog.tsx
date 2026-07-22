@@ -47,7 +47,7 @@ function ViewReportDialog({ record }: props) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 text-gray-600 gap-3 mt-1 mb-1">
+          <div className="grid grid-cols-2 text-gray-600 gap-3 mb-1">
             <div>
                 <span className="font-bold">Doctor : </span> {record.selectedDoctor.specialist}
             </div>
@@ -69,7 +69,8 @@ function ViewReportDialog({ record }: props) {
             </div>
 
             <div className="font-bold text-l text-gray-600">
-                
+                {/* @ts-ignore */}
+                {record.report.chiefComplaint}
             </div>
           
         </DialogHeader>
