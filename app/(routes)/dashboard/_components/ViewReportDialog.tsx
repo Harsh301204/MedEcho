@@ -56,15 +56,18 @@ function ViewReportDialog({ record }: props) {
               {record.selectedDoctor.specialist}
             </div>
             <div>
-              <span className="font-bold">User : </span> {record.id}
+              <span className="font-bold">User : </span>
+              {/* @ts-ignore */}
+              {record.report.user}
             </div>
             <div>
               <span className="font-bold">Consulted On : </span>{" "}
               {dayjs(record.createdOn).format("YYYY-MM-DD , HH:mm")}
             </div>
             <div>
-              <span className="font-bold">Agent : </span>{" "}
-              {record.selectedDoctor.voiceId}
+              <span className="font-bold">Severity : </span>{" "}
+              {/* @ts-ignore */}
+              {record.report.severity}
             </div>
           </div>
 
@@ -76,7 +79,7 @@ function ViewReportDialog({ record }: props) {
 
           <div className="font-bold text-l text-gray-600 mt-2">
             {/* @ts-ignore */}
-            {record.report.chiefComplaint}
+            {record.report?.chiefComplaint}
           </div>
 
           <div className="border-b-2 border-blue-500 mt-3">
@@ -87,7 +90,7 @@ function ViewReportDialog({ record }: props) {
 
           <div className="font-bold text-l text-gray-600 mt-2">
             {/* @ts-ignore */}
-            {record.report.summary}
+            {record.report?.summary}
           </div>
 
           <div className="border-b-2 border-blue-500 mt-3">
@@ -99,7 +102,7 @@ function ViewReportDialog({ record }: props) {
           <div className="font-bold text-l text-gray-600 mt-2">
             <ul className="list-disc list-inside">
               {/* @ts-ignore */}
-              {record.report.symptoms.map((symptom, index) => (
+              {record.report?.symptoms.map((symptom, index) => (
                 <li key={index}>{symptom}</li>
               ))}
             </ul>
@@ -136,7 +139,7 @@ function ViewReportDialog({ record }: props) {
           <div className="font-bold text-l text-gray-600 mt-2">
             <ul className="list-disc list-inside">
               {/* @ts-ignore */}
-              {record.report.recommendations.map((symptom, index) => (
+              {record.report?.recommendations.map((symptom, index) => (
                 <li key={index}>{symptom}</li>
               ))}
             </ul>
