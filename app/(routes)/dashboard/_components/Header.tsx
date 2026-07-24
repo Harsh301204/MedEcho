@@ -20,7 +20,7 @@ const menuOptions = [
     {
         id : 3,
         name : "Billing",
-        path : "/billing"
+        path : "/dashboard/billing"
     },
 
     {
