@@ -3,6 +3,8 @@ import Image from "next/image";
 import React from "react";
 import DialogSession from "./DialogSession";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 export type Doctor = {
   id: number;
@@ -18,7 +20,13 @@ type DoctorProps = {
     props : Doctor
 }
 
-function DoctorAgentCard({props} : DoctorProps) {
+export default async function DoctorAgentCard({props} : DoctorProps) {
+
+  const {has} = await auth();
+
+  const hasSubscription = has({ plan: 'pro' })
+
+
   // return <div className="flex flex-col justify-center items-center rounded-xl p-2 ">
   return <div className="relative">
   {props.subscriptionRequired && <Badge className="absolute p-3 right-0 text-md">
@@ -31,4 +39,4 @@ function DoctorAgentCard({props} : DoctorProps) {
   </div>;
 }
 
-export default DoctorAgentCard;
+// export default DoctorAgentCard;
