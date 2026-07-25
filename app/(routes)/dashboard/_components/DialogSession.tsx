@@ -20,8 +20,12 @@ import DoctorAgentCard, { Doctor } from "./DoctorAgentCard";
 import SuggestedDoctorCard from "./SuggestedDoctorCard";
 import { useRouter } from "next/navigation";
 
+type ButtonProps = {
+  props : boolean
+}
 
-function DialogSession() {
+
+function DialogSession({props} : ButtonProps) {
   const [note, setNote] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [suggestedDoctors, setSuggestedDoctors] = useState<Doctor[]>();
@@ -57,8 +61,8 @@ function DialogSession() {
   }
   return (
     <Dialog>
-      <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full")}>
-        Start Consultation
+      <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full")} disabled={props}>
+        Start Consultation 
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

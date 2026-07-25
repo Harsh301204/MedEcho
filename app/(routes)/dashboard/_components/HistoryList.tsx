@@ -28,7 +28,7 @@ function HistoryList() {
         <Image src={'/medical-assistance.png'} alt='Doc' width={200} height={200}/>
         <h2 className='font-bold text-2xl mt-2'>No Recent Consultations</h2>
         <p className=''>It looks like you haven't consulted with any doctors yet</p>
-        <div><DialogSession/></div>
+        <div><DialogSession props={false}/></div>
     </div>: <div>
         <HistoryTable historyList = {historyList}/>
       </div>}

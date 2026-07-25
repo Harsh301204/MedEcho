@@ -26,6 +26,8 @@ export default async function DoctorAgentCard({props} : DoctorProps) {
 
   const hasSubscription = has({ plan: 'pro' })
 
+  const shouldDisable = props.subscriptionRequired && !hasSubscription
+
 
   // return <div className="flex flex-col justify-center items-center rounded-xl p-2 ">
   return <div className="relative">
@@ -35,7 +37,7 @@ export default async function DoctorAgentCard({props} : DoctorProps) {
     <Image className="w-full h-[250] object-cover rounded-2xl" src={props.image} alt="img" width={200} height={300}/>
     <p className="font-bold text-xl text-center">{props.specialist}</p>
     <p className="line-clamp-2 text-sm text-gray-500 text-center">{props.description}</p>
-    <DialogSession/>
+    <DialogSession props={shouldDisable}/>
   </div>;
 }
 

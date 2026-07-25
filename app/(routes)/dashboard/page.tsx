@@ -11,7 +11,7 @@ function DashBoard() {
       <div>
         <div className='flex justify-between items-center'>
         <h2 className='font-bold text-2xl'>My Dashboard</h2>
-        <div> <DialogSession/>  </div>
+        <div> <DialogSession props={false}/>  </div>
         </div>
         <HistoryList/>
         <DoctorsList/>
