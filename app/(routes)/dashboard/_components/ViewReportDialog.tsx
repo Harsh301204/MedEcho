@@ -58,7 +58,7 @@ function ViewReportDialog({ record }: props) {
             <div>
               <span className="font-bold">User : </span>
               {/* @ts-ignore */}
-              {record.report.user}
+              {record.report?.user}
             </div>
             <div>
               <span className="font-bold">Consulted On : </span>{" "}
@@ -67,7 +67,7 @@ function ViewReportDialog({ record }: props) {
             <div>
               <span className="font-bold">Severity : </span>{" "}
               {/* @ts-ignore */}
-              {record.report.severity}
+              {record.report?.severity}
             </div>
           </div>
 

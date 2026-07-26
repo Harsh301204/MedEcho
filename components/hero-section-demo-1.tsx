@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
+
 export default function HeroSectionOne() {
   return (
     <div className="relative mx-auto  flex flex-col items-center justify-center">
@@ -120,7 +121,10 @@ const Navbar = () => {
         </Link> :
         <div className="flex items-center gap-5">
           <UserButton/>
-          <Button>Dashboard</Button>
+          <Link href={'/dashboard'}>
+          <Button >Dashboard</Button>
+          </Link>
+          
         </div>
       }
     </nav>
