@@ -78,8 +78,6 @@ export async function POST(req: NextRequest) {
       conversation : messages
     }).where(eq(sessionChatTable.sessionId , sessionId))
 
-
-    console.log("JSON response", JSONres);
     return NextResponse.json(JSONres);
   } catch (error) {
     console.log(error);
