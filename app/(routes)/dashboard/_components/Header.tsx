@@ -33,7 +33,10 @@ const menuOptions = [
 function Header() {
   return (
     <div className='flex justify-between items-center p-4 shadow px-10 md:px-20 lg:px-40'>
-    <Image src={'/logo.svg'} alt='logo' width={60} height={180}/>
+        <Link href='/'>
+        <Image src={'/logo.svg'} alt='logo' width={60} height={180}/>
+        </Link>
+    
     <div className='hidden md:flex gap-12 items-center'>
         {menuOptions.map(( option , index) => 
             <Link key={index} href={option.path}>
