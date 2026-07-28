@@ -5,7 +5,15 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-import { Mic, Stethoscope, FileText, ShieldCheck } from "lucide-react";
+import {
+  Mic,
+  Stethoscope,
+  FileText,
+  ShieldCheck,
+  BrainCircuit,
+} from "lucide-react";
+
+
 
 const features = [
   {
@@ -29,6 +37,8 @@ const features = [
     description: "Your conversations remain encrypted and protected.",
   },
 ];
+
+
 
 export default function HeroSectionOne() {
   return (
@@ -99,8 +109,6 @@ export default function HeroSectionOne() {
               Get Started
             </button>
           </Link>
-
-
         </motion.div>
         <motion.div
           initial={{
@@ -140,6 +148,9 @@ export default function HeroSectionOne() {
             })}
           </div>
         </motion.div>
+
+        
+
       </div>
     </div>
   );
