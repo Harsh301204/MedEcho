@@ -46,3 +46,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(result[0]);
   }
 }
+
+
+export async function DELETE(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const sessionId = searchParams.get("sessionId");
+
+    await db
+    .delete(sessionChatTable)
+    // @ts-ignore
+    .where(eq(sessionChatTable.sessionId, sessionId));
+
+  return Response.json({
+    success: true,
+  });
+}

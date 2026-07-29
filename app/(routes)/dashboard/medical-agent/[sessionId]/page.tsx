@@ -18,29 +18,33 @@ export type sessionDetail = {
   report: JSON;
   selectedDoctor: Doctor;
   createdBy: string;
-  createdOn : string
+  createdOn: string;
 };
 
 type messages = {
-  role : string;
-  text : string;
-}
+  role: string;
+  text: string;
+};
 
 function MedicalVoiceAgent() {
   const { sessionId } = useParams();
   const [sessionDetail, setSessionDetail] = useState<sessionDetail>();
   const [callStarted, setCallStarted] = useState(false);
-  const [isSpeaking , setIsSpeaking] = useState(false);
-  const [currRole , setCurrRole] = useState<string | null>()
-  const [liveTypeScript , setLiveTypeScript] = useState<string>()
-  const [messages , setMessages] = useState<messages[]>([])
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [currRole, setCurrRole] = useState<string | null>();
+  const [liveTypeScript, setLiveTypeScript] = useState<string>();
+  const [messages, setMessages] = useState<messages[]>([]);
   const vapiRef = useRef<Vapi | null>(null);
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const callStartedRef = useRef(false);
+
   const handleStartCall = () => {
-    setLoading(false)
+    setLoading(false);
     setCallStarted(true);
+
+    callStartedRef.current = true;
   };
 
   const handleEndCall = () => {
@@ -49,17 +53,16 @@ function MedicalVoiceAgent() {
 
   const handleMessage = (message: any) => {
     if (message.type === "transcript") {
-      const {role , transcriptType , transcript} = message
+      const { role, transcriptType, transcript } = message;
       console.log(`${message.role}: ${message.transcript}`);
-      if(transcriptType == 'partial') {
+      if (transcriptType == "partial") {
         setLiveTypeScript(transcript);
-        setCurrRole(role)
-      } else if(transcriptType == 'final'){
-        setMessages((prev : any) => [...prev , {role : role , text : transcript}])
+        setCurrRole(role);
+      } else if (transcriptType == "final") {
+        setMessages((prev: any) => [...prev, { role: role, text: transcript }]);
         setLiveTypeScript("");
-        setCurrRole(null)
+        setCurrRole(null);
       }
-
     }
   };
 
@@ -78,11 +81,11 @@ function MedicalVoiceAgent() {
 
     vapiRef.current?.on("speech-start", () => {
       console.log("Assistant started speaking");
-      setCurrRole("assistant")
+      setCurrRole("assistant");
     });
     vapiRef.current?.on("speech-end", () => {
       console.log("Assistant stopped speaking");
-      setCurrRole("user")
+      setCurrRole("user");
     });
 
     return () => {
@@ -90,6 +93,13 @@ function MedicalVoiceAgent() {
       vapiRef.current?.off("call-start", handleStartCall);
       vapiRef.current?.off("call-end", handleEndCall);
       vapiRef.current?.off("message", handleMessage);
+
+      if (!callStartedRef?.current) {
+        fetch(`/api/session-chat?sessionId=${sessionId}`, {
+          method: "DELETE",
+          keepalive: true,
+        });
+      }
     };
   }, []);
 
@@ -100,60 +110,57 @@ function MedicalVoiceAgent() {
   };
 
   const startCall = async () => {
-    setLoading(true)
+    setLoading(true);
     const vapiAgentConfig = {
-      name : "AI Medical Voice Agent",
-      firstMessage : "Hello! I'm your AI medical assistant. I can help you understand your symptoms and provide general health information, but I'm not a substitute for a licensed medical professional.",
-      transcriber:{
-        provider:'assembly-ai',
-        language:'en'
+      name: "AI Medical Voice Agent",
+      firstMessage:
+        "Hello! I'm your AI medical assistant. I can help you understand your symptoms and provide general health information, but I'm not a substitute for a licensed medical professional.",
+      transcriber: {
+        provider: "assembly-ai",
+        language: "en",
       },
-      voice:{
-        provider:'vapi',
-        voiceId : sessionDetail?.selectedDoctor?.voiceId
+      voice: {
+        provider: "vapi",
+        voiceId: sessionDetail?.selectedDoctor?.voiceId,
       },
-      model:{
-        provider:'google',
-        model:'gemini-2.5-flash',
-        messages:[
+      model: {
+        provider: "google",
+        model: "gemini-2.5-flash",
+        messages: [
           {
-            role:'system',
-            content:sessionDetail?.selectedDoctor?.agentPrompt
-          }
-        ]
-      }
-    }
+            role: "system",
+            content: sessionDetail?.selectedDoctor?.agentPrompt,
+          },
+        ],
+      },
+    };
     try {
       // @ts-ignore
       vapiRef.current?.start(vapiAgentConfig);
     } catch (error) {
-      console.log(error)
-
+      console.log(error);
     }
-    
-    
   };
 
   const endCall = async () => {
-    setLoading(true)
+    setLoading(true);
     vapiRef.current?.stop();
     const result = await generateReport();
 
-    setCallStarted(false)
-    toast.success("Report Generated Successfully !!")
-    router.replace('/dashboard')
+    setCallStarted(false);
+    toast.success("Report Generated Successfully !!");
+    router.replace("/dashboard");
   };
 
-
   const generateReport = async () => {
-    const result = await axios.post('/api/medical-report' , {
-      messages : messages,
-      sessionDetail : sessionDetail,
-      sessionId : sessionId
-    })
+    const result = await axios.post("/api/medical-report", {
+      messages: messages,
+      sessionDetail: sessionDetail,
+      sessionId: sessionId,
+    });
 
-    console.log(result.data)
-  }
+    console.log(result.data);
+  };
   return (
     <div className="p-5 border rounded-3xl  bg-secondary">
       <div className="flex justify-between">
@@ -182,15 +189,26 @@ function MedicalVoiceAgent() {
           <p className="text-sm text-gray-400">AI Medical Voice Agent</p>
 
           <div className="mt-32 overflow-y-auto flex flex-col items-center justify-center px-10 md:px-28 lg:px-52 xl:px-72">
-            {messages?.slice(-4).map((msg , index) => (
-                <h2 key={index} className="text-gray-400"> {msg.role} : {msg.text}</h2>
+            {messages?.slice(-4).map((msg, index) => (
+              <h2 key={index} className="text-gray-400">
+                {" "}
+                {msg.role} : {msg.text}
+              </h2>
             ))}
 
-            {liveTypeScript && liveTypeScript?.length > 0 && <h2 className="text-lg justify-center">{currRole} : {liveTypeScript}</h2>}
+            {liveTypeScript && liveTypeScript?.length > 0 && (
+              <h2 className="text-lg justify-center">
+                {currRole} : {liveTypeScript}
+              </h2>
+            )}
           </div>
           {!callStarted ? (
-            <Button className="mt-10 p-2 px-4 text-xl" onClick={startCall} disabled={loading}>
-              {loading ? <Loader className="animate-spin"/> : <PhoneCall  />}
+            <Button
+              className="mt-10 p-2 px-4 text-xl"
+              onClick={startCall}
+              disabled={loading}
+            >
+              {loading ? <Loader className="animate-spin" /> : <PhoneCall />}
               Start Call
             </Button>
           ) : (
@@ -200,8 +218,8 @@ function MedicalVoiceAgent() {
               className={"mt-10 p-2 px-4 text-xl"}
               disabled={loading}
             >
-              {loading ? <Loader className="animate-spin"/> : <PhoneOff />}
-               Disconnect
+              {loading ? <Loader className="animate-spin" /> : <PhoneOff />}
+              Disconnect
             </Button>
           )}
         </div>
