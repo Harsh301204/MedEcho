@@ -15,12 +15,14 @@ import { Stethoscope, StethoscopeIcon } from "lucide-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+
 type props = {
   record: sessionDetail;
 };
 
 function ViewReportDialog({ record }: props) {
   dayjs.extend(relativeTime);
+
   return (
     <Dialog>
       <DialogTrigger

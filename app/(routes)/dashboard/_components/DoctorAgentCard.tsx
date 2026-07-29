@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import UpgradeDialog from "./upgradeDialog";
+import DirectCall from "./DirectCall";
 
 export type Doctor = {
   id: number;
@@ -38,7 +39,7 @@ export default async function DoctorAgentCard({props} : DoctorProps) {
     <Image className={` w-full h-[250] object-cover rounded-2xl`} src={props.image} alt="img" width={200} height={300}/>
     <p className="font-bold text-xl text-center">{props.specialist}</p>
     <p className="line-clamp-2 text-sm text-gray-500 text-center">{props.description}</p>
-    {shouldDisable ? <UpgradeDialog/> : <DialogSession props = {shouldDisable}/>}
+    {shouldDisable ? <UpgradeDialog/> : <DirectCall selectedDoctor={props}/>}
     
   </div>;
 }

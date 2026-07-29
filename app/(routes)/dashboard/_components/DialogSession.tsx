@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import DoctorAgentCard, { Doctor } from "./DoctorAgentCard";
 import SuggestedDoctorCard from "./SuggestedDoctorCard";
 import { useRouter } from "next/navigation";
+import UpgradeDialog from "./upgradeDialog";
 
 type ButtonProps = {
   props : boolean
@@ -30,6 +31,7 @@ function DialogSession({props} : ButtonProps) {
   const [loading, setLoading] = useState(false);
   const [suggestedDoctors, setSuggestedDoctors] = useState<Doctor[]>();
   const [selectedDoctor , setSelectedDoctor] = useState<Doctor>()
+  const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false);
 
   const router = useRouter()
 
@@ -59,6 +61,15 @@ function DialogSession({props} : ButtonProps) {
 
 
   }
+
+  const handleDoctorSelect = (doctor: Doctor) => {
+  if (props) {
+    setUpgradeDialogOpen(true)
+    return;
+  }
+
+  setSelectedDoctor(doctor);
+};
   return (
     <Dialog>
       <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full")} disabled={props}>
@@ -85,7 +96,7 @@ function DialogSession({props} : ButtonProps) {
             {Array.isArray(suggestedDoctors) &&
               suggestedDoctors.map((doctor, index) => (
                 <SuggestedDoctorCard props={doctor} key={index} 
-                setSelectedDoctor={() => setSelectedDoctor(doctor)} 
+                setSelectedDoctor={() => handleDoctorSelect(doctor)} 
                 // @ts-ignore
                 selectedDoctor = {selectedDoctor}/>
               ))}
