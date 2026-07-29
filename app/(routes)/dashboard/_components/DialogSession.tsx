@@ -19,7 +19,7 @@ import React, { useState } from "react";
 import DoctorAgentCard, { Doctor } from "./DoctorAgentCard";
 import SuggestedDoctorCard from "./SuggestedDoctorCard";
 import { useRouter } from "next/navigation";
-import UpgradeDialog from "./upgradeDialog";
+import { Stethoscope , Search } from "lucide-react";
 
 type ButtonProps = {
   props : boolean
@@ -72,8 +72,9 @@ function DialogSession({props} : ButtonProps) {
 };
   return (
     <Dialog>
-      <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full")} disabled={props}>
-        Start Consultation 
+      <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full text-lg p-4")} disabled={props}>
+        <Search className="w-4 h-4"/>
+        Find the Right Doctor
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

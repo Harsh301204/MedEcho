@@ -34,11 +34,17 @@ export default function DirectCall({selectedDoctor} : DirectCallProps) {
   }
   return (
     <>
-        {loading && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-        <Loader2 className="h-10 w-10 animate-spin text-white" />
-      </div>
-        )}
+{loading && (
+  <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-md">
+    <Loader2 className="h-10 w-10 animate-spin mb-4" />
+    <p className="text-lg font-medium">
+      Connecting you with your doctor...
+    </p>
+    <p className="text-sm text-muted-foreground">
+      Preparing your consultation
+    </p>
+  </div>
+)}
 
         <Button className={`w-full mt-2`} onClick={() => onStartConsultation()}>Start Consultation</Button>
     </>
