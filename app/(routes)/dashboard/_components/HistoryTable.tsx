@@ -19,7 +19,14 @@ type Props = {
 };
 
 function HistoryTable({ historyList }: Props) {
-    dayjs.extend(relativeTime);
+  dayjs.extend(relativeTime);
+  if (!historyList || historyList.length === 0) {
+    return;
+  }
+
+  const completedHistory = historyList.filter(
+  record => record.report !== null
+    );
   return (
     <div>
       <Table>
@@ -33,12 +40,19 @@ function HistoryTable({ historyList }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {historyList.map((record: sessionDetail, id: number) => (
+
+          {completedHistory.map((record: sessionDetail, id: number) => (
             <TableRow key={id}>
-              <TableCell className="font-medium">{record.selectedDoctor.specialist}</TableCell>
+              <TableCell className="font-medium">
+                {record.selectedDoctor.specialist}
+              </TableCell>
               <TableCell>{record.notes}</TableCell>
               <TableCell>{dayjs(record.createdOn).fromNow()}</TableCell>
-              <TableCell className="text-right"> <ViewReportDialog record = {record}/> </TableCell>
+              <TableCell className="text-right">
+                {" "}
+                  <ViewReportDialog record={record} />
+                {" "}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

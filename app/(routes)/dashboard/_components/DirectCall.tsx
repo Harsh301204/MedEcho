@@ -45,7 +45,6 @@ export default function DirectCall({selectedDoctor} : DirectCallProps) {
     </p>
   </div>
 )}
-
         <Button className={`w-full mt-2`} onClick={() => onStartConsultation()}>Start Consultation</Button>
     </>
     
