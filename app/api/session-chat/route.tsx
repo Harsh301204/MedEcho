@@ -48,14 +48,12 @@ export async function GET(req: NextRequest) {
 }
 
 
-export async function DELETE(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const sessionId = searchParams.get("sessionId");
+export async function DELETE() {
 
     await db
     .delete(sessionChatTable)
     // @ts-ignore
-    .where(eq(sessionChatTable.sessionId, sessionId));
+    .where(eq(sessionChatTable.report, null));
 
   return Response.json({
     success: true,

@@ -5,11 +5,16 @@ import { Button } from '@/components/ui/button'
 import DoctorsList from './_components/DoctorsList'
 import DialogSession from './_components/DialogSession'
 import ViewReportDialog from './_components/ViewReportDialog'
-import { auth } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
+import { deletePendingSession } from '@/lib/pending'
 
 export default async function DashBoard() {
 
   const { has } = await auth()
+  const user = await currentUser()
+
+  // @ts-ignore
+  await deletePendingSession(user)
   
   const hasSubscription = has({ plan: 'pro' })
   return (
