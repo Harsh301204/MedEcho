@@ -12,21 +12,23 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Search } from "lucide-react";
 
 
-export default function UpgradeDialog() {
+export default function UpgradeDialog2() {
   return (
     <Dialog>
-      <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full")}>
-        Start Consultation
+      <DialogTrigger className={cn(buttonVariants(), "mt-2 w-full text-lg p-4")}>
+        <Search className="w-4 h-4"/>
+        Find the Right Doctor
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Upgrade to MedEcho Pro</DialogTitle>
 
           <DialogDescription>
-            This specialist is available only for Pro members. Upgrade to unlock
-            premium consultations.
+            This Feature is available only for Pro members. Upgrade to unlock
+            AI Based Suggestions
           </DialogDescription>
         </DialogHeader>
 

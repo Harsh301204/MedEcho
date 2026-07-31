@@ -7,6 +7,7 @@ import DialogSession from './_components/DialogSession'
 import ViewReportDialog from './_components/ViewReportDialog'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { deletePendingSession } from '@/lib/pending'
+import UpgradeDialog2 from './_components/upgardeDialog2'
 
 export default async function DashBoard() {
 
@@ -21,7 +22,7 @@ export default async function DashBoard() {
       <div>
         <div className='flex justify-between items-center'>
         <h2 className='font-bold text-2xl'>My Dashboard</h2>
-        <div> <DialogSession props={!hasSubscription}/>  </div>
+        <div> {hasSubscription ? <DialogSession props={!hasSubscription}/> : <UpgradeDialog2/>}  </div>
         </div>
         <HistoryList/>
         <DoctorsList/>
