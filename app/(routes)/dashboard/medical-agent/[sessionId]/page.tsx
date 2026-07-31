@@ -89,17 +89,13 @@ function MedicalVoiceAgent() {
     });
 
     return () => {
+
       vapiRef.current?.stop();
       vapiRef.current?.off("call-start", handleStartCall);
       vapiRef.current?.off("call-end", handleEndCall);
       vapiRef.current?.off("message", handleMessage);
 
-      if (!callStartedRef?.current) {
-        fetch(`/api/session-chat?sessionId=${sessionId}`, {
-          method: "DELETE",
-          keepalive: true,
-        });
-      }
+
     };
   }, []);
 
@@ -148,7 +144,7 @@ function MedicalVoiceAgent() {
     const result = await generateReport();
 
     setCallStarted(false);
-    toast.success("Report Generated Successfully !!");
+    if (!callStartedRef?.current) toast.success("Report Generated Successfully !!");
     router.replace("/dashboard");
   };
 

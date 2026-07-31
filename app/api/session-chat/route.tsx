@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
   } else {
     // @ts-ignore
     const result = await db.select().from(sessionChatTable).where(eq(sessionChatTable.sessionId, sessionId));
-
+    
     return NextResponse.json(result[0]);
   }
 }

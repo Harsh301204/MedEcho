@@ -7,22 +7,26 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import UpgradeDialog from './upgradeDialog'
 
 
 type DirectCallProps = {
     selectedDoctor : Doctor
+    consultationCount: number;
+    hasSubscription: boolean;
 }
 
 
-export default function DirectCall({selectedDoctor} : DirectCallProps) {
+export default function DirectCall({selectedDoctor , consultationCount , hasSubscription} : DirectCallProps) {
 
     const [loading , setLoading] = useState<boolean>(false)
 
     const router = useRouter()
     const onStartConsultation = async () => {
+        console.log(consultationCount)
     setLoading(true)
     const result = await axios.post('/api/session-chat' , {
-      notes : `The user wants to directly consult a ${selectedDoctor.specialist}`,
+      notes : `wants to directly consult a ${selectedDoctor.specialist}`,
       selectedDoctor : selectedDoctor
     })
 
@@ -45,7 +49,8 @@ export default function DirectCall({selectedDoctor} : DirectCallProps) {
     </p>
   </div>
 )}
-        <Button className={`w-full mt-2`} onClick={() => onStartConsultation()}>Start Consultation</Button>
+        {(hasSubscription || consultationCount < 5) ? <Button className={`w-full mt-2`} onClick={() => onStartConsultation()}>Start Consultation</Button> : 
+        <UpgradeDialog/>}
     </>
     
   )

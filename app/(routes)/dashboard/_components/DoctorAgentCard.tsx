@@ -21,14 +21,17 @@ export type Doctor = {
 };
 
 type DoctorProps = {
-    props : Doctor
+    props: Doctor;
+    consultationCount: number;
+    hasSubscription: boolean;
 }
 
-export default async function DoctorAgentCard({props} : DoctorProps) {
+export default function DoctorAgentCard({
+  props,
+  consultationCount,
+  hasSubscription,
+} : DoctorProps) {
 
-  const {has} = await auth();
-
-  const hasSubscription = has({ plan: 'pro' })
 
   const shouldDisable = props.subscriptionRequired && (!hasSubscription)
 
@@ -40,7 +43,7 @@ export default async function DoctorAgentCard({props} : DoctorProps) {
     <Image className={` w-full h-[250] object-cover rounded-2xl`} src={props.image} alt="img" width={200} height={300}/>
     <p className="font-bold text-xl text-center">{props.specialist}</p>
     <p className="line-clamp-2 text-sm text-gray-500 text-center">{props.description}</p>
-    {(shouldDisable) ? <UpgradeDialog/> : <DirectCall selectedDoctor={props}/>}
+    {(shouldDisable) ? <UpgradeDialog/> : <DirectCall selectedDoctor={props} consultationCount = {consultationCount}  hasSubscription = {hasSubscription}/>}
     
   </div>;
 }
