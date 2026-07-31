@@ -1,9 +1,9 @@
-import React from 'react'
+import { UserProfile } from "@clerk/nextjs";
 
-function page() {
+export default function ProfilePage() {
   return (
-    <div>page</div>
-  )
+    <div className="flex justify-center p-10">
+      <UserProfile routing="hash" />
+    </div>
+  );
 }
-
-export default page
